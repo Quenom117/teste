@@ -6,17 +6,17 @@ jobs:
   dangerjs:
     runs-on: ubuntu-latest
     steps:
+      - name: 🏗 Checkout base branch
+        uses: actions/checkout@v2
+        with:
+          ref: ${{ github.base_ref }}
+
       - name: 🏗 Setup Node
         uses: actions/setup-node@v2
         with:
           node-version: 16.x
           cache: yarn
           cache-dependency-path: '**/yarn.lock'
-
-      - name: 🏗 Checkout base branch
-        uses: actions/checkout@v2
-        with:
-          ref: ${{ github.base_ref }}
 
       - name: Record before stats
         run: |
