@@ -19,6 +19,7 @@ jobs:
           cache-dependency-path: '**/yarn.lock'
 
       - name: Record before stats
+        continue-on-error: true
         run: |
           mkdir -p .diff/audit-ci
           yarn install --immutable
@@ -30,6 +31,7 @@ jobs:
           clean: false
 
       - name: Record after stats
+        continue-on-error: true
         run: |
           yarn install --immutable
           yarn dlx -q audit-ci@\^6 --config ./audit-ci.jsonc -o json > .diff/audit-ci/after.json
