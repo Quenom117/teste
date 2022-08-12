@@ -91,12 +91,9 @@ function getIssue() {
     },
   };
 }
-// NOTE: next two functions could be one?
-/**
- * Filter issue body checked labels, extracted from checkboxes, using rules
- */
-function getMatchingLabels(body: string, rules: Rule[]) {
-  return getCheckedBoxes(body)
+
+function filterCheckboxesByRules(checkboxes: string[], rules: Rule[]) {
+  return checkboxes
     .map((label) => {
       const rule = rules.find((r) => r.match.test(label));
       return rule?.label;
@@ -105,16 +102,17 @@ function getMatchingLabels(body: string, rules: Rule[]) {
 }
 
 /**
+ * Filter issue body checked labels, extracted from checkboxes, using rules
+ */
+function getMatchingLabels(body: string, rules: Rule[]) {
+  return filterCheckboxesByRules(getCheckedBoxes(body), rules);
+}
+
+/**
  * Filter issue body unchecked labels, extracted from checkboxes, using rules
  */
 function getUncheckedLabels(body: string, rules: Rule[]) {
-  return getUncheckedBoxes(body).reduce((labels, label) => {
-    const rule = rules.find((r) => r.match.test(label));
-    if (!rule) {
-      return labels;
-    }
-    return [...labels, label]; // WARNING: possible bug, should `rules.label`?
-  }, [] as string[]);
+  return filterCheckboxesByRules(getUncheckedBoxes(body), rules);
 }
 
 /**
