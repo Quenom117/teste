@@ -171,7 +171,7 @@ export async function labelsPlugin(options: Options) {
   const replacementLabels = Array.from(
     new Set([
       ...matchingLabels,
-      ...existingLabels.filter((label) => uncheckedLabels.includes(label)),
+      ...existingLabels.filter((label) => !uncheckedLabels.includes(label)),
     ])
   ) as string[];
 
