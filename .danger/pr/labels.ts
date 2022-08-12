@@ -156,6 +156,18 @@ export async function labelsPlugin(options: Options) {
   }
 
   const existingLabels = danger.github.issue.labels.map(({ name }) => name);
+  // eslint-disable-next-line no-console
+  console.log({
+    existingLabels,
+    uncheckedLabels,
+    oldUncheckedLabels: getUncheckedBoxes(body).reduce((labels, label) => {
+      const rule = rules.find((r) => r.match.test(label));
+      if (!rule) {
+        return labels;
+      }
+      return [...labels, label];
+    }, [] as string[]),
+  });
   const replacementLabels = Array.from(
     new Set([
       ...matchingLabels,
